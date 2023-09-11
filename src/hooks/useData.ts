@@ -10,6 +10,7 @@ export interface FetchResponse<T> {
 const useData = <T>(
   endpoint: string,
   requestConfig?: AxiosRequestConfig,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   deps?: any[]
 ) => {
   const [data, setData] = useState<T[]>([]);
@@ -43,6 +44,7 @@ const useData = <T>(
         controller.abort();
       };
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     deps ? [...deps] : []
   );
 
