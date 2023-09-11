@@ -25,7 +25,7 @@ const GenreList = ({ onSelectGenre }: GenreListProps) => {
                 fontSize={"lg"}
                 variant={"link"}
               >
-                {genre.name}
+                <Text overflow={"hidden"}>{genre.name}</Text>
               </Button>
             </HStack>
           </ListItem>
