@@ -17,7 +17,7 @@ interface PlatformIconListProps {
   platforms: Platform[];
 }
 
-const PlatformIconList = ({ platforms }: PlatformIconListProps) => {
+const PlatformIconList = ({ platforms = [] }: PlatformIconListProps) => {
   const IconMap: { [key: string]: IconType } = {
     pc: FaWindows,
     playstation: FaPlaystation,
