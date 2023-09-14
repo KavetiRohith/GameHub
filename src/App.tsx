@@ -1,4 +1,11 @@
-import { Box, Grid, GridItem, HStack, Show } from "@chakra-ui/react";
+import {
+  Box,
+  Grid,
+  GridItem,
+  HStack,
+  Show,
+  useColorMode,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import NavBar from "./components/NavBar";
 import GameGrid from "./components/GameGrid";
@@ -21,6 +28,7 @@ function App() {
   const [gameQuery, setGameQuery] = useState<GameQuery>({
     page: 1,
   } as GameQuery);
+  const { colorMode } = useColorMode();
 
   return (
     <Grid
@@ -34,14 +42,22 @@ function App() {
       }}
     >
       <GridItem area="nav">
-        <NavBar
-          onSearch={(searchQuery) =>
-            setGameQuery({ ...gameQuery, searchQuery })
-          }
-        />
+        <Box
+          position="fixed"
+          top="0"
+          width="100%"
+          zIndex="sticky"
+          backgroundColor={colorMode === "dark" ? "gray.900" : "white"}
+        >
+          <NavBar
+            onSearch={(searchQuery) =>
+              setGameQuery({ ...gameQuery, searchQuery })
+            }
+          />
+        </Box>
       </GridItem>
       <Show above="lg">
-        <GridItem area="aside" paddingX={5}>
+        <GridItem area="aside" paddingX={5} marginTop={20}>
           <GenreList
             onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
             selectedGenre={gameQuery.genre}
@@ -49,7 +65,7 @@ function App() {
         </GridItem>
       </Show>
       <GridItem area="main">
-        <Box paddingLeft={3}>
+        <Box paddingLeft={3} marginTop={20}>
           <GameHeading gameQuery={gameQuery} />
           <HStack spacing={5} marginBottom={5}>
             <PlatformSelector
