@@ -16,12 +16,14 @@ const useData = <T>(
 ) => {
   const [data, setData] = useState<T[]>([]);
   const [error, setError] = useState("");
+  const [count, setCount] = useState(-1);
   const [isLoading, setLoading] = useState(false);
 
   useEffect(
     () => {
       const controller = new AbortController();
       if (!keepPreviousData) setData([]);
+      setError("");
       setLoading(true);
       apiClient
         .get<FetchResponse<T>>(endpoint, {
@@ -33,6 +35,7 @@ const useData = <T>(
             ? setData([...data, ...res.data.results])
             : setData(res.data.results);
           setLoading(false);
+          setCount(res.data.count);
         })
         .catch((err) => {
           if (err instanceof CanceledError) {
@@ -51,7 +54,7 @@ const useData = <T>(
     deps ? [...deps] : []
   );
 
-  return { data, error, isLoading };
+  return { data, count, error, isLoading };
 };
 
 export default useData;

@@ -12,7 +12,7 @@ interface GameGridProps {
 }
 
 const GameGrid = ({ gameQuery, next }: GameGridProps) => {
-  const { games, error } = useGames(gameQuery);
+  const { games, gameCount, error } = useGames(gameQuery);
 
   if (error) return <Text>{error}</Text>;
 
@@ -20,7 +20,7 @@ const GameGrid = ({ gameQuery, next }: GameGridProps) => {
     <InfiniteScroll
       dataLength={games.length} // This is important field to render the next data
       next={next}
-      hasMore={true}
+      hasMore={games.length !== gameCount}
       loader={
         <SimpleGrid
           columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}

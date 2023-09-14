@@ -18,6 +18,7 @@ export interface Game {
 const useGames = (gameQuery: GameQuery) => {
   const {
     data: games,
+    count: gameCount,
     isLoading,
     error,
   } = useData<Game>(
@@ -32,10 +33,10 @@ const useGames = (gameQuery: GameQuery) => {
       },
     },
     [gameQuery],
-    true
+    gameQuery.page !== 1 ? true : false
   );
 
-  return { games, error, isLoading };
+  return { games, gameCount, error, isLoading };
 };
 
 export default useGames;
