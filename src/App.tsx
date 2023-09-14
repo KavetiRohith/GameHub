@@ -14,10 +14,13 @@ export interface GameQuery {
   platform: Platform | null;
   sortOrder: string | null;
   searchQuery: string | null;
+  page: number;
 }
 
 function App() {
-  const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
+  const [gameQuery, setGameQuery] = useState<GameQuery>({
+    page: 1,
+  } as GameQuery);
 
   return (
     <Grid
@@ -63,7 +66,12 @@ function App() {
             />
           </HStack>
         </Box>
-        <GameGrid gameQuery={gameQuery} />
+        <GameGrid
+          gameQuery={gameQuery}
+          next={() => {
+            setGameQuery({ ...gameQuery, page: gameQuery.page + 1 });
+          }}
+        />
       </GridItem>
     </Grid>
   );

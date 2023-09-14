@@ -28,9 +28,11 @@ const useGames = (gameQuery: GameQuery) => {
         platforms: gameQuery.platform?.id,
         ordering: gameQuery.sortOrder,
         search: gameQuery.searchQuery,
+        page: gameQuery.page,
       },
     },
-    [gameQuery]
+    [gameQuery],
+    true
   );
 
   return { games, error, isLoading };

@@ -11,7 +11,8 @@ const useData = <T>(
   endpoint: string,
   requestConfig?: AxiosRequestConfig,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  deps?: any[]
+  deps?: any[],
+  keepPreviousData: boolean = false
 ) => {
   const [data, setData] = useState<T[]>([]);
   const [error, setError] = useState("");
@@ -20,7 +21,7 @@ const useData = <T>(
   useEffect(
     () => {
       const controller = new AbortController();
-      setData([]);
+      if (!keepPreviousData) setData([]);
       setLoading(true);
       apiClient
         .get<FetchResponse<T>>(endpoint, {
@@ -28,7 +29,9 @@ const useData = <T>(
           ...requestConfig,
         })
         .then((res) => {
-          setData(res.data.results);
+          keepPreviousData
+            ? setData([...data, ...res.data.results])
+            : setData(res.data.results);
           setLoading(false);
         })
         .catch((err) => {
